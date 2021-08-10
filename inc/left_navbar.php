@@ -37,7 +37,7 @@
 						</a>
 					</li> -->
 					<li>
-						<a href="donor.php" class="dropdown-toggle no-arrow">
+						<a href="donors.php" class="dropdown-toggle no-arrow">
 							<span class="micon dw dw-house-1"></span><span class="mtext">Donor</span>
 						</a>
 					</li>

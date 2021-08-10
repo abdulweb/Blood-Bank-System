@@ -3,7 +3,8 @@
 	include('user.php');
 	include 'inc/header.php';
 	include 'inc/right_navbar.php';
-	include 'inc/left_navbar.php';
+  include 'inc/left_navbar.php';
+	include 'inc/modal.php';
 ?>
 <style type="text/css">
 	.saveBtn{
@@ -17,28 +18,35 @@
 	<div class="main-container">
 		<div class="">
 			<div class="card-box mb-30">
-					<div class="pd-20">
-						<h4 class="text-blue h4">All Patient</h4>
-					</div>
-					<div class="pull-right" style="margin-right: 40px;">
-						<button class="btn btn-info"> <i class="fa fa-user"></i> New Patient</button>
-					</div>
+					<div class="row">
+              <div class="col-md-6 pt-20 pl-20">
+                  <h4 class="text-blue h4">List of Donors</h4>
+              </div>
+              <div class="col-md-6 pt-20 pr-20">
+                  <!-- <button class="btn btn-info pull-right"> <i class="fa fa-user"></i> New Donors</button> -->
+                  <a href="#" class="btn btn-info pull-right" data-toggle="modal" data-target="#bd-example-modal-lg" type="button" alt="modal"> <i class="fa fa-user"></i>
+                    New Donors
+                  </a>
+              </div>
+          </div>
+          
+					
 					<div class="pb-20">
 						<table class="table table-bordered table-striped table-hover js-basic-example dataTable">
 							<thead>
 								<tr>
 									<th class="table-plus datatable-nosort">#</th>
-									<th>Full-Name</th>
-									<th>Age</th>
-									<th>Gender</th>
-									<th>Phone Number</th>
+									<th>Donor Name</th>
+									<th>Blood Group</th>
+									<th>Contact No</th>
+									<th>Address</th>
 									<th>Created Date</th>
 									<th class="datatable-nosort">Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
-                                        $results = $object->getAllPatient();
+                                        $results = $object->getAllDonor();
                                         if (!empty($results)) {
                                             foreach ($results as $key => $result) {    
                                         ?>
@@ -46,9 +54,9 @@
                                             <tr>
                                                <td><?=++$key?></td>
                                                <td id="name<?php echo $result['id'] ?>"><?=$result['name']?></td>
-                                               <td><?=$result['dob']?></td>
-                                               <td id="sex<?php echo $result['id'] ?>"><?=$result['sex']?></td>
-                                               <td id="phone<?php echo $result['id'] ?>"><?=$result['phoneNo']?></td>
+                                               <td><?=$result['blood_group']?></td>
+                                               <td id="sex<?php echo $result['id'] ?>"><?=$result['contact_no']?></td>
+                                               <td id="phone<?php echo $result['id'] ?>"><?=$result['address']?></td>
                                                <td><?=$result['created_at']?></td>
                                                <td>
                                                	<div class="dropdown">
@@ -85,6 +93,49 @@
 	
 	include 'inc/footer.php';
 ?>
+<script type="text/javascript">
+  $('#submit-form').submit(function(e){
+    e.preventDefault() 
+    $('#login-form button[type="button"]').attr('disabled',true).html('Logging in...');
+    var address=document.getElementById("address").value;
+    var fullname=document.getElementById("fullname").value;
+    var bloodGroup=document.getElementById("bloodGroup").value;
+    var phone=document.getElementById("contactNo").value;
+    console.log(address+fullname+bloodGroup+phone);
+
+    // });
+
+      $.ajax
+       ({
+        type:'post',
+        url:'function.php',
+        data:{
+         add_donor:'add_donor',
+         address:address,
+         fullname:fullname,
+         bloodGroup:bloodGroup,
+         phone:phone,
+        },
+        // data:$(this).serialize(),
+        success:function(response) {
+         if(response=="success")
+         {
+         
+          swal("Successfully!", "Record Updated Successfully.", "success");
+                      setTimeout(function(){// wait for 5 secs(2)
+                         location.reload(); // then reload the page.(3)
+                    }, 1000);
+         }
+         else{
+          alert('Error occured');
+         }
+        }
+
+       });   
+
+});
+
+</script>
 <script type="text/javascript">
 	 $(document).ready(function(){
 
@@ -133,6 +184,7 @@
 
 });
 </script>
+
 <script type="text/javascript">
 	function edit_sds(id)
 {

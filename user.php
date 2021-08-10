@@ -205,6 +205,49 @@ class user extends dbh
 		
 	}
 
+	// Get all patient
+	public function getAllDonor()
+	{
+		$stmt = "SELECT * FROM donors";
+		$result = $this->connect()->query($stmt);
+		$numberrows = $result->num_rows;
+		if ($numberrows >0) {
+			while ($rows= $result->fetch_assoc()) {
+				$row_data [] = $rows;
+		}
+		 return $row_data;
+			
+		}
+		else{
+			return '';
+		}
+	}
+
+	// Add new Donor
+	public function add_donor($fullname,$phone,$address,$bloodGroup){
+		
+			if (empty($this->validate_fields('fullname','phone','address','bloodGroup'))) {
+				# code...
+				$date = date('Y-m-d');
+				$insert = "INSERT INTO donors(name,contact_no,address,blood_group,created_at)Values('$fullname','$phone','$address','$bloodGroup','$date')";
+				$stmt = $this->connect()->query($insert);
+				if ($stmt) {
+					// echo '<div class ="alert alert-success alert-dismissible"> <strong> New Donor Record  Added Successfully </strong> </div>';
+					echo "success";
+				}
+				else
+				{
+					echo '<div class ="alert alert-danger alert-dismissible"> <strong> Error Occured !!! Please Try Again  </strong> </div>';
+				}
+
+			}
+			else{
+				echo '<div class ="alert alert-danger alert-dismissible"> <strong> Error Occured !!! All Field is required </strong> </div>';
+			}
+			
+
+	}
+
 // ###############################################
 	// Insert health worker into database
 	public function insertHealthWorker($name,$email,$phone,$hospital){
