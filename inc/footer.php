@@ -29,5 +29,7 @@
 	<!-- add sweet alert js & css in footer -->
 	<script src="./src/plugins/sweetalert2/sweetalert2.all.js"></script>
 	<script src="./src/plugins/sweetalert2/sweet-alert.init.js"></script>
+	<!-- Load Js funtion. This must always come last -->
+	<script src="./function.js"></script>
 </body>
 </html>

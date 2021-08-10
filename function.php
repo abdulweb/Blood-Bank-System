@@ -23,4 +23,15 @@ if (isset($_POST['add_donor'])) {
 	$object = $object->add_donor($fullname,$phone,$address,$bloodGroup);
 }
 
+if(isset($_POST['edit_donor']))
+{
+	 $id=$_POST['row_id'];
+	 $fullname=$_POST['fullname'];
+	 $bloodGroup=$_POST['bloodGroup'];
+	 $phone=$_POST['phone'];
+	 $address=$_POST['address'];
+
+	 $object = $object->update_donor($fullname,$bloodGroup,$phone,$address,$id);
+}
+
 ?>

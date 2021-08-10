@@ -248,6 +248,24 @@ class user extends dbh
 
 	}
 
+	// Update Donors 
+	public function update_donor($fullname,$bloodGroup,$phone,$address,$id){
+
+	 $stmt = "UPDATE donors set name = '$fullname', contact_no = '$phone', blood_group='$bloodGroup', address ='$address' where id = '$id'";
+	 $result = $this->connect()->query($stmt);
+	 if($result)
+	 {
+	 	echo "success";
+	 }
+	 else{
+	 	echo '<script>alert("Please Try Agin. Error Occured")</script>';
+	 }
+	 	
+	 exit();
+
+	}
+
+
 // ###############################################
 	// Insert health worker into database
 	public function insertHealthWorker($name,$email,$phone,$hospital){

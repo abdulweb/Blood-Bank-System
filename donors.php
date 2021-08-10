@@ -54,9 +54,9 @@
                                             <tr>
                                                <td><?=++$key?></td>
                                                <td id="name<?php echo $result['id'] ?>"><?=$result['name']?></td>
-                                               <td><?=$result['blood_group']?></td>
-                                               <td id="sex<?php echo $result['id'] ?>"><?=$result['contact_no']?></td>
-                                               <td id="phone<?php echo $result['id'] ?>"><?=$result['address']?></td>
+                                               <td id="bloodGroup<?php echo $result['id'] ?>"><?=$result['blood_group']?></td>
+                                               <td id="phone<?php echo $result['id'] ?>"><?=$result['contact_no']?></td>
+                                               <td id="address<?php echo $result['id'] ?>"><?=$result['address']?></td>
                                                <td><?=$result['created_at']?></td>
                                                <td>
                                                	<div class="dropdown">
@@ -93,49 +93,7 @@
 	
 	include 'inc/footer.php';
 ?>
-<script type="text/javascript">
-  $('#submit-form').submit(function(e){
-    e.preventDefault() 
-    $('#login-form button[type="button"]').attr('disabled',true).html('Logging in...');
-    var address=document.getElementById("address").value;
-    var fullname=document.getElementById("fullname").value;
-    var bloodGroup=document.getElementById("bloodGroup").value;
-    var phone=document.getElementById("contactNo").value;
-    console.log(address+fullname+bloodGroup+phone);
 
-    // });
-
-      $.ajax
-       ({
-        type:'post',
-        url:'function.php',
-        data:{
-         add_donor:'add_donor',
-         address:address,
-         fullname:fullname,
-         bloodGroup:bloodGroup,
-         phone:phone,
-        },
-        // data:$(this).serialize(),
-        success:function(response) {
-         if(response=="success")
-         {
-         
-          swal("Successfully!", "Record Updated Successfully.", "success");
-                      setTimeout(function(){// wait for 5 secs(2)
-                         location.reload(); // then reload the page.(3)
-                    }, 1000);
-         }
-         else{
-          alert('Error occured');
-         }
-        }
-
-       });   
-
-});
-
-</script>
 <script type="text/javascript">
 	 $(document).ready(function(){
 
@@ -191,11 +149,15 @@
     //alert('hey');
  //var title=document.getElementById("title"+id).innerHTML;
  var fullname=document.getElementById("name"+id).innerHTML;
- var sex=document.getElementById("sex"+id).innerHTML;
+ var bloodGroup=document.getElementById("bloodGroup"+id).innerHTML;
  var phone=document.getElementById("phone"+id).innerHTML;
+ var address=document.getElementById("address"+id).innerHTML;
+
  document.getElementById("name"+id).innerHTML="<input type='text' class='form-control' autofocus id='fullname_text"+id+"' value='"+fullname+"'>";
- document.getElementById("sex"+id).innerHTML="<input type='text' class='form-control' id='sex_text"+id+"' value='"+sex+"'>";
+ document.getElementById("bloodGroup"+id).innerHTML="<input type='text' class='form-control' id='bloodGroup_text"+id+"' value='"+bloodGroup+"'>";
  document.getElementById("phone"+id).innerHTML="<input type='text' class='form-control' id='phone_text"+id+"' value='"+phone+"'>";    
+ document.getElementById("address"+id).innerHTML="<input type='text' class='form-control' id='address_text"+id+"' value='"+address+"'>";    
+
  document.getElementById("editBtn"+id).style.visibility="hidden";
  document.getElementById("saveBtn"+id).style.visibility="visible";
 }
@@ -203,26 +165,30 @@
 function save_sd(id)
 {
  var fullname=document.getElementById("fullname_text"+id).value;
- var sex=document.getElementById("sex_text"+id).value;
+ var bloodGroup=document.getElementById("bloodGroup_text"+id).value;
  var phone=document.getElementById("phone_text"+id).value;
+ var address=document.getElementById("address_text"+id).value;
     
  $.ajax
  ({
   type:'post',
   url:'function.php',
   data:{
-   edit_sd:'edit_sd',
+   edit_donor:'edit_donor',
    row_id:id,
    fullname:fullname,
-   sex:sex,
+   bloodGroup:bloodGroup,
    phone:phone,
+   address:address,
+
   },
   success:function(response) {
    if(response=="success")
    {
     document.getElementById("name"+id).innerHTML=fullname;
-    document.getElementById("sex"+id).innerHTML=sex;
+    document.getElementById("bloodGroup"+id).innerHTML=bloodGroup;
     document.getElementById("phone"+id).innerHTML=phone;
+    document.getElementById("address"+id).innerHTML=address;
 
     document.getElementById("editBtn"+id).style.visibility="visible";
     document.getElementById("saveBtn"+id).style.visibility="hidden";
@@ -233,7 +199,7 @@ function save_sd(id)
               }, 1000);
    }
    else{
-    alert('error occured');
+    alert('Error occured');
    }
   }
 
