@@ -1,3 +1,9 @@
+<?php
+//session_start();
+include('dbh.php');
+include('user.php');
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,13 +35,21 @@
 
 		gtag('config', 'UA-119386393-1');
 	</script>
+	<style type="text/css">
+		.brand-logo a small{
+			font-weight: bolder;
+			text-shadow:  2px 3px 0px rgba(0,0,0.7,0.2);;
+		}
+	</style>
 </head>
 <body class="login-page">
 	<div class="login-header box-shadow">
 		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<div class="brand-logo">
-				<a href="login.html">
+				<a href="index.php" class="text-danger">
 					<!-- <img src="vendors/images/deskapp-logo.svg" alt=""> -->
+					<strong>MA<small class="text-primary" style="">Blood Bank</small></strong>
+					<!-- Maryam Abacha <small>Blood Bank</small> -->
 				</a>
 			</div>
 			<div class="login-menu">
@@ -57,16 +71,24 @@
 						<div class="login-title">
 							<h2 class="text-center text-danger">Login To Blood Bank</h2>
 						</div>
-						<form>
+						<?php
+				                if(isset($_POST['login_btn']))
+				                {
+				                    $username = $_POST['username'];
+				                    $password = $_POST['password'];
+				                   $object->login($username,$password);
+				                }
+				        ?>
+						<form id="login-form" action="index.php" method="post">
 							
 							<div class="input-group custom">
-								<input type="text" class="form-control form-control-lg" placeholder="Username">
+								<input type="email" class="form-control form-control-lg" name="username" placeholder="Username" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
 							<div class="input-group custom">
-								<input type="password" class="form-control form-control-lg" placeholder="**********">
+								<input type="password" class="form-control form-control-lg" name="password" placeholder="**********" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
@@ -89,7 +111,7 @@
 											use code for form submit
 											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 										-->
-										<a class="btn btn-danger btn-lg btn-block" href="index.html">Sign In</a>
+										<button class="btn btn-danger btn-lg btn-block" type="submit" name="login_btn"> Sign In</button>
 									</div>
 								</div>
 							</div>
@@ -97,7 +119,7 @@
 					</div>
 				</div>
 				<div class="col-md-12">
-					<small class="text-center text-danger" style="margin-left: 45%;"> <strong>Designed by Zahida - 1610300017</strong></small>
+					<small class="text-center text-danger" style="margin-left: 45%;"> <strong>Developed By Iya Zahida Muhammed  - 1610310209</strong></small>
 				</div>
 				
 			</div>
@@ -108,5 +130,11 @@
 	<script src="vendors/scripts/script.min.js"></script>
 	<script src="vendors/scripts/process.js"></script>
 	<script src="vendors/scripts/layout-settings.js"></script>
+	<script>
+	// $('#login-form').submit(function(e){
+	// 	e.preventDefault()
+	// 	$('#login-form button[type="submit"]').attr('disabled',true).html('Logging in...');
+	// })
+</script>
 </body>
 </html>
