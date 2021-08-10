@@ -34,4 +34,8 @@ if(isset($_POST['edit_donor']))
 	 $object = $object->update_donor($fullname,$bloodGroup,$phone,$address,$id);
 }
 
+if (isset($_POST['delete_donor'])) {
+	$id = $_POST['id'];
+	$object = $object->delete_donor($id);
+}
 ?>

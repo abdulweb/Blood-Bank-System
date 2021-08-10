@@ -265,6 +265,20 @@ class user extends dbh
 
 	}
 
+	// delete patient record
+	public function delete_donor($id)
+	{
+		$stmt = "DELETE FROM donors where id = '$id'";
+		$result = $this->connect()->query($stmt);
+		if ($result) {
+				echo "success";
+			}
+			else{
+				echo '<script>alert("Please Try Agin. Error Occured")</script>';
+			}
+		
+	}
+
 
 // ###############################################
 	// Insert health worker into database

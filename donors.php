@@ -60,18 +60,19 @@
                                                <td><?=$result['created_at']?></td>
                                                <td>
                                                	<div class="dropdown">
-													<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-														<i class="dw dw-more"></i>
-													</a>
-													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-														<a class="dropdown-item btn btn-link saveBtn" href="#" onclick="save_sd('<?php echo $result['id'];?>');" id="saveBtn<?php echo $result['id'] ?>"><i class="dw dw-eye" ></i> Save</a>
+                        													<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                        														<i class="dw dw-more"></i>
+                        													</a>
+                        													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                        														<a class="dropdown-item btn btn-link saveBtn" href="#" onclick="save_donor('<?php echo $result['id'];?>');" id="saveBtn<?php echo $result['id'] ?>"><i class="dw dw-eye" ></i> Save</a>
 
-														<a class="dropdown-item btn btn-link" href="#" onclick="edit_sds('<?php echo $result['id'];?>');" id="editBtn<?php echo $result['id'] ?>"><i class="dw dw-edit2"></i> Edit</a>
+                        														<a class="dropdown-item btn btn-link" href="#" onclick="edit_donor('<?php echo $result['id'];?>');" id="editBtn<?php echo $result['id'] ?>"><i class="dw dw-edit2"></i> Edit</a>
 
-														<a class="dropdown-item btn btn-link delete-btn" href="#" id="<?=$result['id']?>"><i class="dw dw-delete-3"></i> Delete</a>
-													</div>
-												</div>
+                        														<a class="dropdown-item btn btn-link" href="#" onclick="delete_donor('<?php echo $result['id'];?>');"  id="deleteBtn<?php echo $result['id'] ?>"><i class="dw dw-delete-3"></i> Delete</a>
 
+                        													</div>
+                      												</div>
+                                                
 
                                                </td>
                                             </tr>
@@ -95,56 +96,31 @@
 ?>
 
 <script type="text/javascript">
-	 $(document).ready(function(){
+  function delete_donor(id)
+  {
+    var result = confirm("Want to delete?");
+    if (result) {
+        $.ajax({
+          url:'function.php',
+          method:'POST',
+          data:{delete_donor:'delete_donor',id:id},
+          success:function(resp){
+            if(resp=="success"){
+              swal("Deleted!", "Record Deleted Successfully.", "success");
+              setTimeout(function(){
+                location.reload()
+              },1000)
 
-    $('.delete-btn').on('click',function(){        
-        swal({
-            title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                confirmButtonClass: 'btn btn-success margin-5',
-                cancelButtonClass: 'btn btn-danger margin-5',
-                buttonsStyling: false
-        })
-        .then((isConfirm) => {
-            // if (isConfirm) {
-                var id=this.id;
-                $.ajax({
-                  type:'post',
-                  url:'function.php',
-                  data:{
-                   deleteSd:'deleteSd',
-                   id:id,
-                  },
-                  success: function(inputValue){
-                    if (inputValue=="success") 
-                    {
-                        swal("Deleted!", "Your Record has been deleted.", "success");
-                    setTimeout(function(){// wait for 5 secs(2)
-                       location.reload(); // then reload the page.(3)
-                  }, 1000); 
-                    }
-                    else{swal("Error", "Your Record is safe Please try again", "error");}
-                    
-                    }
-                });
-                
-            // } 
-        //     else {
-        //         swal("cancel", "Your Record is safe", "error");
-        //     }
+            }
+          }
         });
-
-    });   
-
-});
+      }
+  }
+    
 </script>
 
 <script type="text/javascript">
-	function edit_sds(id)
+	function edit_donor(id)
 {
     //alert('hey');
  //var title=document.getElementById("title"+id).innerHTML;
@@ -162,7 +138,8 @@
  document.getElementById("saveBtn"+id).style.visibility="visible";
 }
 
-function save_sd(id)
+
+function save_donor(id)
 {
  var fullname=document.getElementById("fullname_text"+id).value;
  var bloodGroup=document.getElementById("bloodGroup_text"+id).value;
